@@ -32,9 +32,21 @@ See also:
 
 ## Docker basics <a name="docker"></a>
 
-- image
-- [container]((https://www.docker.com/resources/what-container))
-- registry
+Docker is a client-server application with the ability to package and run an application in a isolated environment called a container.
+
+**Image**
+An image is a read-only template with instructions for creating a Docker container. Often, an image is based on another image, with some additional customization.
+To build your own image, you create a Dockerfile with a simple syntax for defining the steps needed to create the image and run it. Each instruction in a Dockerfile creates a layer in the image.
+
+**Container**
+Container is a runnable instance of an image. Container is relatively well isolated from other containers and its host machine.
+You can run several instances of one image on the same host.
+
+**Registry**
+Storage of images. Can be private or public. Largest public docker registry is `hub.docker.com`. It will be used by default.
+
+See also:
+- [Docker overview](https://docs.docker.com/engine/docker-overview/)
 
 ## Prerequisites <a name="prerequisites"></a>
 
