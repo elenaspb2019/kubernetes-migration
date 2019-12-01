@@ -1,20 +1,60 @@
 # kubernetes-migration
+##Content list
 
-Ставь себе докер и го вновь сюда. 
-Смотри, нам нужно запустить контейнер с приложением в кластере Кубернетес. Для примера, возьмем наш ExampleApp, пусть принимает запросы на порту 8800. 
-Создаем каталог и подкаталоги:
+* [Introduction](#introduction)
+* [Prerequisite](#prerequisite)
+* [Сontainerize the app](#containerize)
+* [Local run](#local)
+* [Kubernetes base](#kuber)
+
+##Introduction  <a name="introduction"></a>
+We move our services into cloud environment and use [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
+This instruction will be helpful for developers who have never worked with Kubernetes.
+This instruction describe how to:
+- prepare [docker](https://www.docker.com/resources/what-container) image of application 
+- prepare working infrastructure
+- deploy docker image.
+
+See also:
+- [Docecker get stated](https://www.docker.com/get-started)
+- [Docker on wiki](https://en.wikipedia.org/wiki/Docker_(software)
+- [Kubernates in wiki](https://en.wikipedia.org/wiki/Kubernetes)
+
+
+##Prerequisite <a name="prerequisite"></a>
+Before start you should install
+- [git](https://git-scm.com/)
+- [docker](https://docs.docker.com/docker-for-windows/install/)
+
+##Сontainerize the app <a name="containerize"></a>
+ You should run docker with your app in Kubernetes Cluster.
+ For example, take an application  `ExampleApp`, which accepts connection on port 8000.
+  
+1. Create directory and subdirectories:
+
+```bash
 mkdir quickstart_docker
 mkdir quickstart_docker/application
 mkdir quickstart_docker/docker
 mkdir quickstart_docker/docker/application
+```
 
-quickstart_docker/ # Каталог всего проекта
-├──application/      # Тут будет лежать код приложения
-└──docker/           # Тут будет всякий стафф для докера
-   └──application/    # ...здесь положим Dockerfile для приложения
-(Мне кажтеся, можно все и в корень пихнуть, но говорят, что надо структуру и все дела, )
-Едем дальше. Чтобы продеплоить приложение, нам понадобится приложение. Для примера возьмем пока такое. Потом нужно заменить.
-В каталог quickstart_docker/application положим файл application.py:
+2.You can move all into the root. But prefer structure for convince.
+
+```text
+quickstart_docker/ # directory the whole project
+├──application/      # project code
+└──docker/           # stuff for docker
+   └──application/    # dockerfile for app
+```
+
+3.Prepare application for deploy.
+
+4.For example take the next python-application (after you can change this)
+
+5.In directory `quickstart_docker/application` put `application.py` file:
+
+```python
 import http.server
 import socketserver
 
@@ -26,30 +66,57 @@ httpd = socketserver.TCPServer(("", PORT), Handler)
 
 print("serving at port", PORT)
 httpd.serve_forever()
-Приложению нужно окружение. Как минимум понадобится python, а ему, в свою очередь, ОС со всеми зависимостями. Это все есть в докерхабе, возьмем оттуда.
-Итак, в каталог quickstart_docker/docker/application кладём файл с именем Dockerfile и следующим содержимым:
-# Use base image from the registry
-FROM python:3.5
+```
+6.Add environment for app.
 
-# Set the working directory to /app
-WORKDIR /app
+ **Requirements**:
+ - python
+ - OS for python with all dependences. Это все есть в докерхабе, возьмем оттуда. (нужна ссылка, незнаюгде взять)
 
-# Copy the 'application' directory contents into the container at /app
-COPY ./application /app
+7.In directory `quickstart_docker/docker/application` put file with `Dockerfile` name with information:
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+```text
+FROM python:3.5  # Use base image from the registry
+WORKDIR /app  # Set the working directory to /app
+COPY ./application /app # Copy the 'application' directory contents into the container at /app
+EXPOSE 8000 # Make port 8000 available to the world outside this container
+CMD ["python", "/app/application.py"] # Execute 'python /app/application.py' when container launches
+```
 
-# Execute 'python /app/application.py' when container launches
-CMD ["python", "/app/application.py"]
-Следующий шаг. В терминале набираем:
+8.In the terminal:
+
+```bash
 docker build . -f-docker/application/Dockerfile -t exampleapp
-Аргументы: . - рабочий каталог, контекст сборки;  -f docker/application/Dockerfile - docker-файл; -t exampleapp - тэгируем образ, чтоб потом можно было его найти.
-Подробнее про сборку образов для Docker здесь https://docs.docker.com/engine/reference/builder/.
-Ну и смотрим список образов:
-$ docker images
-REPOSITORY             TAG             IMAGE ID            CREATED             SIZE
-exampleapp             latest          83wse0edc28a        2 seconds ago       153MB
-python                 3.6             05sob8636w3f        6 weeks ago         153MB
+```
+Arguments:
+ - work directory
+ - build context.
+ 
+```text
+ -f docker/application/Dockerfile - docker-файл;
+ -t exampleapp - тэгируем образ, чтоб потом можно было его найти.
+```
+See also about bulid image for [Docker](https://docs.docker.com/engine/reference/builder/).
 
-Дальше будем закидывать образ в репозиторий.
+9.Look at the list of docker images:
+
+```bash
+$ docker images
+```
+REPOSITORY  |           TAG    |          IMAGE ID      |     CREATED        |        SIZE|
+------------|------------------|------------------------|--------------------|------------|
+exampleapp  |            latest|          83wse0edc28a  |       2 seconds ago|       153MB|
+python      |           3.6    |         05sob8636w3f   |     6 weeks ago    |       153MB|
+
+
+10.Next we a going to put docker image into repository.
+
+## Local run (docker run + port forwarding) <a name="local"></a>
+docker run + проброс портов
+
+## Kubernetes base <a name="kuber"></a>
+Learn more about Kubernetes technology:
+- [Kubernetes concepts](https://kubernetes.io/docs/concepts/)
+- [Kubernetes setup](https://kubernetes.io/docs/setup/)
+
+
