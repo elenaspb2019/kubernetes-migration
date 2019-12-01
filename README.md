@@ -20,7 +20,7 @@ We are moving our services into cloud infrastructure and starting to use Kuberne
 This instruction will be helpful for developers who has never worked either with Kubernetes or with Docker.
 
 This instruction describes how to:
-- prepare [docker](https://www.docker.com/resources/what-container) image with application 
+- prepare docker image with application 
 - build and publish docker image
 - run your application inside docker container.
 
@@ -33,7 +33,7 @@ See also:
 ## Docker basics <a name="docker"></a>
 
 - image
-- container
+- [container]((https://www.docker.com/resources/what-container))
 - registry
 
 ## Prerequisites <a name="prerequisites"></a>
@@ -49,7 +49,7 @@ In addition to this you should install:
 Following step-by-step guide describes how to wrap your application inside Docker image. 
 As as example we will take Python application called `ExampleApp`, which accepts HTTP-requests on port 8000.
 
-1. Create repository structure as follows:
+1. Create folder structure as follows:
 
 ```text
 quickstart_docker/  # root directory of project
@@ -99,11 +99,11 @@ EXPOSE 8000
 CMD ["python", "/app/application.py"]
 ```
 
-- `FROM python:3.5` - public image from Docker Hub with python and all dependencies.
-- `WORKDIR /app` - working directory with application. Will be used for any other commands.
-- `COPY ./application /app` - copy local 'application' directory to the container at /app.
+- `FROM python:3.5` - inherit from public image from Docker Hub registry with python and all dependencies installed.
+- `WORKDIR /app` - create working directory with application.
+- `COPY ./application /app` - copy local `application` directory to the container's `app`.
 - `EXPOSE 8000` - make port 8000 of container available outside this container.
-- `CMD ["python", "/app/application.py"]` - execute 'python /app/application.py' during every container launch.
+- `CMD ["python", "/app/application.py"]` - execute `python /app/application.py` during every container launch.
 
 4. Build an image using created Dockerfile.
 
@@ -133,7 +133,7 @@ python      |           3.6    |         05sob8636w3f   |     6 weeks ago    |  
 
 6. Push your image to remote registry
 
-Firstly you should login to authorize in remote Docker registry via [`docker login`](https://docs.docker.com/engine/reference/commandline/login/) command
+Firstly you should authorize in remote Docker registry via [`docker login`](https://docs.docker.com/engine/reference/commandline/login/) command
 
 ```bash
 $ docker login
@@ -147,7 +147,7 @@ $ docker push exampleapp
 
 ## Run <a name="run"></a>
 
-Now you or anyone else can run you application from scratch with a single command.
+Now you or anyone else can run your application with a single command.
 
 To run (and pull if needed) Docker image you can use [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command
 
@@ -158,6 +158,8 @@ $ docker run -p 8000:8000 exampleapp
 Arguments:
 - `-p 8000:8000` - port mapping
 - `exampleapp` - name of Docker image
+
+Now your application is available on `http://localhost:8000/`
 
 ## Kubernetes basics <a name="kubernetes"></a>
 
