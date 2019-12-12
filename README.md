@@ -138,11 +138,12 @@ To list all images existing in your local registry use [`docker images`](https:/
 ```bash
 $ docker images
 ```
+```text
+REPOSITORY             TAG           IMAGE ID          CREATED                   SIZE
 
-REPOSITORY  |           TAG    |          IMAGE ID      |     CREATED        |        SIZE|
-------------|------------------|------------------------|--------------------|------------|
-exampleapp  |            latest|          83wse0edc28a  |       2 seconds ago|       153MB|
-python      |           3.6    |         05sob8636w3f   |     6 weeks ago    |       153MB|
+exampleapp              latest          83wse0edc28a         2 seconds ago       153MB
+python                 3.6             05sob8636w3f        6 weeks ago           153MB
+```
 
 6. Push your image to remote registry.
 
@@ -172,7 +173,7 @@ Arguments:
 - `-p 8000:8000` - port mapping.
 - `exampleapp` - name of image.
 
-Now your application is available on `http://localhost:8000/`.
+Now your application is available on http://localhost:8000/.
 
 ## Deploying to Kubernetes <a name="kubernetes"></a>
 
