@@ -84,7 +84,7 @@ mkdir quickstart_docker/docker/application
 
 2. Put all your source code into `quickstart_docker/application`.
 
-In this example we create `application.py` file with the following content:
+In this example create `application.py` file with the following content:
 
 ```python
 import http.server
@@ -100,11 +100,9 @@ print("serving at port", PORT)
 httpd.serve_forever()
 ```
 
-3. Configure container for your application.
-
+3. Configure container for your application. 
 Image content defined in configuration file called [Dockerfile](https://docs.docker.com/engine/reference/builder/).
-
-In our scenario we will use following file:
+In our scenario use following file:
 
 ```text
 FROM python:3.5
