@@ -17,14 +17,14 @@ We are moving our services into cloud infrastructure and starting to use Kuberne
 
 [Docker](https://www.docker.com/resources/what-container) is a set of platform as a service (PaaS) products that use OS-level virtualization to deliver software in packages called containers.
 
-This instruction will be helpful for developers who has never worked either with Kubernetes or with Docker.
+This instruction will be helpful for developers who have never worked either with Kubernetes or with Docker.
 
 This instruction describes how to:
-- prepare image with application 
-- build and publish image
+- prepare image with an application; 
+- build and publish image;
 - run your application inside container.
 
-In the same repository with this article all mentioned files are located.
+In the same repository with this article, all mentioned files are located.
 
 See also:
 - [Docker Documentation](https://docs.docker.com/)
@@ -32,7 +32,7 @@ See also:
 
 ## Docker basics <a name="docker"></a>
 
-Docker is a client-server application with the ability to package and run an application in a isolated environment called a container.
+Docker is a client-server application with the ability to package and run an application in an isolated environment called a container.
 
 **Image**
 
@@ -41,28 +41,28 @@ To build your own image, you create a Dockerfile with a simple syntax for defini
 
 **Container**
 
-Container is a runnable instance of an image. Container is relatively well isolated from other containers and its host machine.
+А сontainer is a runnable instance of an image. A container is relatively well isolated from other containers and its host machine.
 You can run several instances of one image on the same host.
 
 **Registry**
 
-Storage of images. Can be private or public. Largest public registry is `hub.docker.com`. It will be used by default.
+Storage of images. Can be private or public. The largest public registry is `hub.docker.com`. It will be used by default.
 
 See also:
 - [Docker overview](https://docs.docker.com/engine/docker-overview/)
 
 ## Prerequisites <a name="prerequisites"></a>
 
-Docker is available for different platforms but this user guide is primary for Windows platform.
-General system requirements can be found in [Docker Installation Guide](https://docs.docker.com/docker-for-windows/install/#system-requirements) article.
-In addition to this you should install:
+Docker is available for different platforms but this user guide is primarily for the Windows platform.
+General system requirements can be found in the [Docker Installation Guide](https://docs.docker.com/docker-for-windows/install/#system-requirements) article.
+In addition to this, you should install:
 - [Docker](https://docs.docker.com/docker-for-windows/install/)
 - [Git](https://git-scm.com/download/win) (optional, since you can download this repository as .zip).
 
 ## Build <a name="build"></a>
 
-Following step-by-step guide describes how to wrap your application inside image. 
-As as example we will take Python application called `ExampleApp`, which accepts HTTP-requests on port 8000.
+The following step-by-step guide describes how to wrap your application inside an image. 
+For example, we will take a Python application called `ExampleApp`, which accepts HTTP-requests on port 8000.
 
 1. Create folder structure as follows:
 
@@ -84,7 +84,7 @@ mkdir quickstart_docker/docker/application
 
 2. Put all your source code into `quickstart_docker/application`.
 
-In this example create `application.py` file with the following content:
+In this example, create `application.py` file with the following content:
 
 ```python
 import http.server
@@ -101,8 +101,8 @@ httpd.serve_forever()
 ```
 
 3. Configure container for your application. 
-Image content defined in configuration file called [Dockerfile](https://docs.docker.com/engine/reference/builder/).
-In our scenario use following file:
+Image content defined in a configuration file called [Dockerfile](https://docs.docker.com/engine/reference/builder/).
+In our scenario, use the following file:
 
 ```text
 FROM python:3.5
@@ -112,8 +112,8 @@ EXPOSE 8000
 CMD ["python", "/app/application.py"]
 ```
 
-- `FROM python:3.5` - inherit from public image from Docker Hub registry with python and all dependencies installed.
-- `WORKDIR /app` - create working directory with application.
+- `FROM python:3.5` - inherit from the public image from Docker Hub registry with python and all dependencies installed.
+- `WORKDIR /app` - create a working directory with the application.
 - `COPY ./application /app` - copy local `application` directory to the container's `app`.
 - `EXPOSE 8000` - make port 8000 of container available outside this container.
 - `CMD ["python", "/app/application.py"]` - execute `python /app/application.py` during every container launch.
@@ -129,11 +129,11 @@ $ docker build . -f docker/application/Dockerfile -t exampleapp
 Arguments:
 - `.` - working directory.
 - `-f docker/application/Dockerfile` - path to your Dockerfile.
-- `-t exampleapp` - name of created image.
+- `-t exampleapp` - the name of the created image.
 
-5. Check that new image has appeared.
+5. Check that the new image has appeared.
 
-To list all images existing in your local registry use [`docker images`](https://docs.docker.com/engine/reference/commandline/images/) command:
+To list all images existing in your local registry, use the [`docker images`](https://docs.docker.com/engine/reference/commandline/images/) command:
 
 ```bash
 $ docker images
@@ -145,7 +145,7 @@ exampleapp              latest          83wse0edc28a         2 seconds ago      
 python                 3.6             05sob8636w3f        6 weeks ago           153MB
 ```
 
-6. Push your image to remote registry.
+6. Push your image to the remote registry.
 
 Firstly, you should authorize in remote registry via [`docker login`](https://docs.docker.com/engine/reference/commandline/login/) command:
 
@@ -153,7 +153,7 @@ Firstly, you should authorize in remote registry via [`docker login`](https://do
 $ docker login
 ```
 
-To push some image from your local registry to remote one use [`docker push`](https://docs.docker.com/engine/reference/commandline/push/) command:
+To push some image from your local registry to a remote one, use the [`docker push`](https://docs.docker.com/engine/reference/commandline/push/) command:
 
 ```bash
 $ docker push exampleapp
@@ -163,7 +163,7 @@ $ docker push exampleapp
 
 Now you or anyone else can run your application with a single command.
 
-To run (and pull if needed) image you can use [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command:
+To run (and pull if needed) image, you can use the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command:
 
 ```bash
 $ docker run -p 8000:8000 exampleapp
@@ -171,11 +171,11 @@ $ docker run -p 8000:8000 exampleapp
 
 Arguments:
 - `-p 8000:8000` - port mapping.
-- `exampleapp` - name of image.
+- `exampleapp` - the name of the image.
 
 Now your application is available on http://localhost:8000/.
 
 ## Deploying to Kubernetes <a name="kubernetes"></a>
 
-Learn how to deploy image to Kubernetes:
+Learn how to deploy an image to Kubernetes:
 - [Deploying to Kubernetes](https://docs.docker.com/get-started/part3/)
