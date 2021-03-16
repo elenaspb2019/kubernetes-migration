@@ -56,7 +56,7 @@ See also:
 Docker is available for different platforms but this user guide is primarily for the Windows platform.
 General system requirements can be found in the [Docker Installation Guide](https://docs.docker.com/docker-for-windows/install/#system-requirements) article.
 In addition to this, you should install:
-- [Docker](https://docs.docker.com/docker-for-windows/install/)
+- [Docker](https://docs.docker.com/docker-for-windows/install/).
 - [Git](https://git-scm.com/download/win) (optional, since you can download this repository as .zip).
 
 ## Build <a name="build"></a>
@@ -112,11 +112,11 @@ EXPOSE 8000
 CMD ["python", "/app/application.py"]
 ```
 
-- `FROM python:3.5` - inherit from the public image from Docker Hub registry with python and all dependencies installed.
-- `WORKDIR /app` - create a working directory with the application.
-- `COPY ./application /app` - copy local `application` directory to the container's `app`.
-- `EXPOSE 8000` - make port 8000 of container available outside this container.
-- `CMD ["python", "/app/application.py"]` - execute `python /app/application.py` during every container launch.
+- `FROM python:3.5` — inherit from the public image from Docker Hub registry with python and all dependencies installed.
+- `WORKDIR /app` — create a working directory with the application.
+- `COPY ./application /app` — copy local `application` directory to the container's `app`.
+- `EXPOSE 8000` — make port 8000 of container available outside this container.
+- `CMD ["python", "/app/application.py"]` — execute `python /app/application.py` during every container launch.
 
 4. Build an image using created Dockerfile.
 
@@ -127,9 +127,9 @@ $ docker build . -f docker/application/Dockerfile -t exampleapp
 ```
 
 Arguments:
-- `.` - working directory.
-- `-f docker/application/Dockerfile` - path to your Dockerfile.
-- `-t exampleapp` - the name of the created image.
+- `.` — working directory;
+- `-f docker/application/Dockerfile` — path to your Dockerfile;
+- `-t exampleapp` — the name of the created image.
 
 5. Check that the new image has appeared.
 
@@ -170,8 +170,8 @@ $ docker run -p 8000:8000 exampleapp
 ```
 
 Arguments:
-- `-p 8000:8000` - port mapping.
-- `exampleapp` - the name of the image.
+- `-p 8000:8000` — port mapping;
+- `exampleapp` — the name of the image.
 
 Now your application is available on http://localhost:8000/.
 
